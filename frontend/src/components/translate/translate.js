@@ -20,7 +20,7 @@ async function translateText(text, targetLang) {
     return data.data.translations[0].translatedText;
   } catch (error) {
     console.error("Erro ao traduzir texto:", error);
-    return text; // Retorna o texto original em caso de erro
+    return text;
   }
 }
 

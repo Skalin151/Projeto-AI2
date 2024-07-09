@@ -75,7 +75,7 @@ const Sidebar = () => {
           <div>
             <img src={logo} alt="Logo" className="logo img-fluid mx-auto d-block mb-3" />
             <NavLink className={location.pathname === "/" ? "menu-item text-white mb-4 d-block text-start active" : "menu-item text-white mb-4 d-block text-start"} to="/" onClick={handleDrawerClose}>
-              <FaHome className='icone' /> Início
+              <FaHome className='icone' /> Homepage
             </NavLink>
             <NavLink className={location.pathname === "/calendario" ? "menu-item text-white mb-4 d-block text-start active" : "menu-item text-white mb-4 d-block text-start"} to="/calendario" onClick={handleDrawerClose}>
               <FaCalendarAlt className='icone' /> Calendário

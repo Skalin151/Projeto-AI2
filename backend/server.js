@@ -6,7 +6,7 @@ const cors = require('cors');
 const path = require('path');
 require ('dotenv').config();
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://pint-softinsa.vercel.app'],
+  origin: ['http://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
@@ -26,17 +26,16 @@ const carregarTabelas = require('./src/utils/carregarTabelas');
 carregarTabelas();   
 
 
-// Importação das rotas
 const authRoutes = require('./src/routes/authRoutes'); 
-const eventoRoutes = require('./src/routes/eventoRoutes');
+const eventoRoutes = require('./src/routes/eventRoutes');
 const areaRoutes = require('./src/routes/areaRoutes');
-const estabelecimentoRoutes = require('./src/routes/estabelecimentoRoutes');
-const postoRoutes = require('./src/routes/postoRoutes');
-const avaliacaoRoutes = require('./src/routes/avaliacaoRoutes');
-const utilizadorRoutes = require('./src/routes/utilizadorRoutes');
-const notificacaoRoutes = require('./src/routes/notificacaoRoutes');
-const fotoRoutes = require('./src/routes/fotoRoutes');
-const estatisticaRoutes = require('./src/routes/estatisticaRoutes');
+const estabelecimentoRoutes = require('./src/routes/establishmentRoutes');
+const postoRoutes = require('./src/routes/postRoutes');
+const avaliacaoRoutes = require('./src/routes/reviewRoutes');
+const utilizadorRoutes = require('./src/routes/userRoutes');
+const notificacaoRoutes = require('./src/routes/notificationRoutes');
+const fotoRoutes = require('./src/routes/photoRoutes');
+const estatisticaRoutes = require('./src/routes/statRoutes');
 
 // Rotas da API
 app.use('/', authRoutes);

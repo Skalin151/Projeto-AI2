@@ -1,9 +1,9 @@
 const multer = require('multer');
 const path = require('path');
 
-// Configuração do Multer para eventos
-const storageEventos = multer.diskStorage({
-    destination: './uploads/eventos',
+
+const storageEvents = multer.diskStorage({
+    destination: './uploads/events',
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname);
         const filename = file.fieldname + '-' + Date.now() + '-' + path.basename(file.originalname, ext) + ext;
@@ -11,9 +11,9 @@ const storageEventos = multer.diskStorage({
     }
 });
 
-// Configuração do Multer para estabelecimentos
-const storageEstabelecimentos = multer.diskStorage({
-    destination: './uploads/estabelecimentos',
+
+const storageEstablishments = multer.diskStorage({
+    destination: './uploads/establishments',
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname);
         const filename = file.fieldname + '-' + Date.now() + '-' + path.basename(file.originalname, ext) + ext;
@@ -21,9 +21,9 @@ const storageEstabelecimentos = multer.diskStorage({
     }
 });
 
-//Configuração do Multer para utilizadores
-const storageUtilizadores = multer.diskStorage({
-    destination: './uploads/utilizador',
+
+const storageUsers = multer.diskStorage({
+    destination: './uploads/user',
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname);
         const filename = file.fieldname + '-' + Date.now() + '-' + path.basename(file.originalname, ext) + ext;
@@ -31,12 +31,12 @@ const storageUtilizadores = multer.diskStorage({
     }
 });
 
-const uploadEventos = multer({ storage: storageEventos });
-const uploadEstabelecimentos = multer({ storage: storageEstabelecimentos });
-const uploadUtilizadores = multer({ storage: storageUtilizadores });
+const uploadEvents = multer({ storage: storageEvents });
+const uploadEstablishments = multer({ storage: storageEstablishments });
+const uploadUsers = multer({ storage: storageUsers });
 
 module.exports = {
-    uploadEventos,
-    uploadEstabelecimentos,
-    uploadUtilizadores
+    uploadEvents,
+    uploadEstablishments,
+    uploadUsers
 };

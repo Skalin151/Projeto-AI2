@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-
+require('dotenv').config({ path: process.env.DOTENV_CONFIG_PATH || '.env' });
 
 const dialectOptions = {};
 if (process.env.DB_SSL === 'true') {
@@ -9,7 +9,7 @@ if (process.env.DB_SSL === 'true') {
   };
 }
 
-const sequelize = new Sequelize('ai2', 'postgres', '17268015', {
+const sequelize = new Sequelize('Softinsa', 'postgres', '17268015', {
   host: 'localhost',
   port: '5432',
   dialect: 'postgres',

@@ -1,79 +1,26 @@
-const Utilizador = require('../models/utilizadorModel');
+const User = require('../models/userModel');
 const Area = require('../models/areaModel');
 const Subarea = require('../models/subareaModel');
-const Posto = require('../models/postoModel');
-const Evento = require('../models/eventoModel');
-const Estabelecimento = require('../models/estabelecimentoModel');
-const AvaliacaoEstabelecimento = require('../models/avaliacaoEstabelecimentoModel');
-const AvaliacaoEvento = require('../models/avaliacaoEventoModel');
-const FotoEstabelecimento = require('../models/fotoEstabelecimentoModel');
-const FotoEvento = require('../models/fotoEventoModel');
-const Inscricao = require('../models/inscricaoModel');
-const Notificacao = require('../models/notificacaoModel');
+const Post = require('../models/postModel');
+const Event = require('../models/eventModel');
+const Establishment = require('../models/establishmentModel');
+const EstablishmentReview = require('../models/establishmentReviewModel');
+const EventReview = require('../models/eventReviewModel');
+const EstablishmentPhoto = require('../models/establishmentPhoto');
+const EventPhoto = require('../models/eventPhotoModel');
+const SignUp = require('../models/signupModel');
+const Notification = require('../models/notificationModel');
 const { sequelize } = require('./database');
 
 const utilizadores = [
-  {
-    nome: 'Artur Oliveira',
-    nif: '123456789',
-    localidade: 'Viseu',
-    telemovel: '912345678',
-    email: 'artur@email.com',
-    estado: false,
-    isAdmin: true,
-    cargo: 'Lider de Marketing',
-  },
-  {
-    nome: 'Vasco Fernandes',
-    nif: '987654321',
-    localidade: 'Porto',
-    telemovel: '987654321',
-    email: 'vasco@email.com',
-    estado: true,
-    isAdmin: false,
-    cargo: 'IT',
-  },
-  {
-    nome: 'Pedro Figueiredo',
-    nif: '123456789',
-    localidade: 'Viseu',
-    telemovel: '912345678',
-    email: 'pedro@email.com',
-    estado: false,
-    isAdmin: false,
-    cargo: 'Marketing',
-  },
-  {
-    nome: 'Mateus Vasconcelos',
-    nif: '987654321',
-    localidade: 'Viseu',
-    telemovel: '987654321',
-    email: 'mateus@email.com',
-    estado: true,
-    isAdmin: false,
-    cargo: 'Gestor de Dados',
-  },
-  {
-    nome: 'Simão Ramos',
-    nif: '123456789',
-    localidade: 'Viseu',
-    telemovel: '912345678',
-    email: 'simao@email.com',
-    estado: false,
-    isAdmin: false,
-    cargo: 'Gestor de Dados',
-  },
-  {
-    nome: 'Utilizador Teste',
-    email: 'teste@email.com',
-    palavra_passe: '$2a$10$uD0hKNj4bXFQMtmB4XCNe.7scC5pkgddQvdYySm22nAPV0voT3ozO',
-    estado: true,
-    isAdmin: true,
-    isPrimeiroLogin: false,
-    idPosto: 1,
-    cargo: 'Gestor de Dados',
-    descricao: 'Utilizador de teste',
-  },
+  { nome: 'Maria Santos', nif: '123456789', localidade: 'Viseu', telemovel: '912345678', email: 'maria.santos@email.pt', estado: true, isAdmin: true, cargo: 'Gestor de Eventos' },
+  { nome: 'João Oliveira', nif: '234567890', localidade: 'Tomar', telemovel: '923456789', email: 'joao.oliveira@email.pt', estado: true, isAdmin: false, cargo: 'Coordenador de Saúde' },
+  { nome: 'Ana Silva', nif: '345678901', localidade: 'Fundão', telemovel: '934567890', email: 'ana.silva@email.pt', estado: true, isAdmin: false, cargo: 'Treinador Desportivo' },
+  { nome: 'Pedro Costa', nif: '456789012', localidade: 'Portalegre', telemovel: '945678901', email: 'pedro.costa@email.pt', estado: true, isAdmin: true, cargo: 'Diretor de Formação' },
+  { nome: 'Sofia Martins', nif: '567890123', localidade: 'Vila Real', telemovel: '956789012', email: 'sofia.martins@email.pt', estado: true, isAdmin: false, cargo: 'Chef de Cozinha' },
+  { nome: 'Rui Ferreira', nif: '678901234', localidade: 'Viseu', telemovel: '967890123', email: 'rui.ferreira@email.pt', estado: true, isAdmin: false, cargo: 'Gestor de Alojamento' },
+  { nome: 'Carla Rodrigues', nif: '789012345', localidade: 'Tomar', telemovel: '978901234', email: 'carla.rodrigues@email.pt', estado: true, isAdmin: false, cargo: 'Coordenador de Transportes' },
+  { nome: 'Miguel Alves', nif: '890123456', localidade: 'Fundão', telemovel: '989012345', email: 'miguel.alves@email.pt', estado: true, isAdmin: true, cargo: 'Diretor de Lazer' }
 ];
 
 const areas = [
@@ -87,20 +34,27 @@ const areas = [
 ];
 
 const subareas = [
-  { idArea: 1, nome: 'Clinicas medicas e hospitais' },
-  { idArea: 1, nome: 'Clinicas dentárias' },
+  { idArea: 1, nome: 'Clinicas médicas e hospitais' },
+  { idArea: 1, nome: 'Clínicas dentárias' },
+  { idArea: 1, nome: 'Centros de bem-estar' }, 
   { idArea: 2, nome: 'Ginásios' },
-  { idArea: 2, nome: 'Atividades ao Ar Livre' },
+  { idArea: 2, nome: 'Atividades ao ar livre' },
+  { idArea: 2, nome: 'Desportos aquáticos' },
   { idArea: 3, nome: 'Centros de Formação' },
   { idArea: 3, nome: 'Escolas' },
+  { idArea: 3, nome: 'Workshops e seminários' }, 
   { idArea: 4, nome: 'Restaurantes' },
   { idArea: 4, nome: 'Shoppings' },
+  { idArea: 4, nome: 'Mercados locais' },
   { idArea: 5, nome: 'Quartos para arrendar' },
   { idArea: 5, nome: 'Casas para alugar' },
+  { idArea: 5, nome: 'Alojamento local' }, 
   { idArea: 6, nome: 'Boleias' },
   { idArea: 6, nome: 'Transportes públicos' },
+  { idArea: 6, nome: 'Aluguer de veículos' }, 
   { idArea: 7, nome: 'Cinema' },
   { idArea: 7, nome: 'Parques' },
+  { idArea: 7, nome: 'Museus e galerias' } 
 ];
 
 const postos = [
@@ -108,400 +62,57 @@ const postos = [
   { nome: 'Tomar' },
   { nome: 'Fundão' },
   { nome: 'Portalegre' },
-  { nome: 'Vila Real' },
+  { nome: 'Vila Real' }
 ];
 
 const eventos = [
-  // Saúde
-  { idArea: 1, idSubarea: 1, idCriador: 1, idAdmin: 1, idPosto: 1, titulo: 'Campanha de Saúde', descricao: 'Campanha de Saúde na cidade de Viseu', data: '2024-03-01', hora: '10:00:00', morada: 'Viseu', estado: true, foto: 'cufViseu.jpg' },
-  { idArea: 1, idSubarea: 2, idCriador: 2, idAdmin: 2, idPosto: 2, titulo: 'Check-up Dentário', descricao: 'Check-up Dentário na cidade de Tomar', data: '2024-07-01', hora: '11:00:00', morada: 'Tomar', estado: true },
-  { idArea: 1, idSubarea: 1, idCriador: 3, idAdmin: 3, idPosto: 3, titulo: 'Feira de Saúde', descricao: 'Feira de Saúde na cidade de Fundão', data: '2024-05-01', hora: '12:00:00', morada: 'Fundão', estado: true },
+  { idArea: 1, idSubarea: 1, idCriador: 1, idAdmin: 1, idPosto: 1, titulo: 'Feira de Saúde Integral', descricao: 'Feira de Saúde Integral com foco em prevenção e bem-estar em Viseu', data: '2024-09-20', hora: '09:00:00', morada: 'Parque Aquilino Ribeiro, Viseu', estado: true, foto: 'saude-viseu.jpg' },
+  { idArea: 1, idSubarea: 2, idCriador: 2, idAdmin: 2, idPosto: 2, titulo: 'Semana do Yoga e Meditação', descricao: 'Semana dedicada à prática de yoga e meditação para todos os níveis em Tomar', data: '2024-06-15', hora: '07:30:00', morada: 'Mata Nacional dos Sete Montes, Tomar', estado: true },
 
-  // Desporto
-  { idArea: 2, idSubarea: 3, idCriador: 4, idAdmin: 4, idPosto: 4, titulo: 'Competição de Ginástica', descricao: 'Competição de Ginástica na cidade de Portalegre', data: '2024-03-01', hora: '10:00:00', morada: 'Portalegre', estado: true },
-  { idArea: 2, idSubarea: 4, idCriador: 5, idAdmin: 5, idPosto: 5, titulo: 'Atividades ao Ar Livre', descricao: 'Atividades ao Ar Livre na cidade de Vila Real', data: '2024-07-01', hora: '11:00:00', morada: 'Vila Real', estado: true },
-  { idArea: 2, idSubarea: 3, idCriador: 1, idAdmin: 2, idPosto: 1, titulo: 'Torneio de Futebol', descricao: 'Torneio de Futebol na cidade de Viseu', data: '2024-05-01', hora: '12:00:00', morada: 'Viseu', estado: true, foto: 'campode7.jpg' },
+  { idArea: 2, idSubarea: 4, idCriador: 3, idAdmin: 3, idPosto: 3, titulo: 'Corrida de Montanha do Fundão', descricao: 'Competição de corrida de montanha nas serras do Fundão', data: '2024-08-05', hora: '08:00:00', morada: 'Serra da Gardunha, Fundão', estado: true, foto: 'corrida-fundao.jpg' },
+  { idArea: 2, idSubarea: 3, idCriador: 4, idAdmin: 4, idPosto: 4, titulo: 'Torneio de Futsal Interescolar', descricao: 'Torneio de futsal entre escolas de Portalegre', data: '2024-07-10', hora: '14:00:00', morada: 'Pavilhão Municipal de Portalegre', estado: true },
 
-  // Formação
-  { idArea: 3, idSubarea: 5, idCriador: 2, idAdmin: 3, idPosto: 2, titulo: 'Workshop de Programação', descricao: 'Workshop de Programação na cidade de Tomar', data: '2024-03-01', hora: '10:00:00', morada: 'Tomar', estado: true },
-  { idArea: 3, idSubarea: 6, idCriador: 3, idAdmin: 4, idPosto: 3, titulo: 'Feira Educacional', descricao: 'Feira Educacional na cidade de Fundão', data: '2024-07-01', hora: '11:00:00', morada: 'Fundão', estado: true },
-  { idArea: 3, idSubarea: 5, idCriador: 4, idAdmin: 5, idPosto: 4, titulo: 'Seminário de Educação', descricao: 'Seminário de Educação na cidade de Portalegre', data: '2024-05-01', hora: '12:00:00', morada: 'Portalegre', estado: true },
+  { idArea: 3, idSubarea: 6, idCriador: 5, idAdmin: 5, idPosto: 5, titulo: 'Simpósio de Energias Renováveis', descricao: 'Simpósio sobre avanços em energias renováveis na Universidade de Trás-os-Montes e Alto Douro', data: '2024-10-12', hora: '09:30:00', morada: 'UTAD, Vila Real', estado: true },
+  { idArea: 3, idSubarea: 5, idCriador: 6, idAdmin: 6, idPosto: 1, titulo: 'Workshop de Artes Digitais', descricao: 'Workshop prático de artes digitais e design gráfico em Viseu', data: '2024-04-18', hora: '15:00:00', morada: 'Escola Superior de Tecnologia e Gestão de Viseu', estado: true, foto: 'artes-digitais-viseu.jpg' },
 
-  // Gastronomia
-  { idArea: 4, idSubarea: 7, idCriador: 5, idAdmin: 1, idPosto: 5, titulo: 'Festival de Gastronomia', descricao: 'Festival de Gastronomia na cidade de Vila Real', data: '2024-03-01', hora: '10:00:00', morada: 'Vila Real', estado: true },
-  { idArea: 4, idSubarea: 8, idCriador: 1, idAdmin: 2, idPosto: 1, titulo: 'Feira de Vinhos', descricao: 'Venha testar o seu paladar na 24ª Feira de Vinhos da cidade de Viseu. Preparámos uma grande tarde que não pode perder!', data: '2024-07-01', hora: '11:00:00', morada: 'Parque de estacionamento da feira semanal, Viseu', estado: true, foto: 'vinho.jpg'},
-  { idArea: 4, idSubarea: 7, idCriador: 2, idAdmin: 3, idPosto: 2, titulo: 'Degustação de Pratos', descricao: 'Degustação de Pratos na cidade de Tomar', data: '2024-05-01', hora: '12:00:00', morada: 'Tomar', estado: true },
+  { idArea: 4, idSubarea: 7, idCriador: 7, idAdmin: 7, idPosto: 2, titulo: 'Festival da Gastronomia Templária', descricao: 'Festival gastronómico inspirado na história templária de Tomar', data: '2024-08-20', hora: '12:00:00', morada: 'Praça da República, Tomar', estado: true, foto: 'gastronomia-tomar.jpg' },
+  { idArea: 4, idSubarea: 8, idCriador: 8, idAdmin: 8, idPosto: 3, titulo: 'Rota dos Sabores da Beira', descricao: 'Circuito gastronómico pelos sabores tradicionais da Beira no Fundão', data: '2024-09-25', hora: '18:00:00', morada: 'Centro Histórico, Fundão', estado: true },
 
-  // Alojamento
-  { idArea: 5, idSubarea: 9, idCriador: 3, idAdmin: 4, idPosto: 3, titulo: 'Feira de Quartos', descricao: 'Feira de Quartos na cidade de Fundão', data: '2024-03-01', hora: '10:00:00', morada: 'Fundão', estado: true },
-  { idArea: 5, idSubarea: 10, idCriador: 4, idAdmin: 5, idPosto: 4, titulo: 'Mostra de Casas para Alugar', descricao: 'Mostra de Casas para Alugar na cidade de Portalegre', data: '2024-07-01', hora: '11:00:00', morada: 'Portalegre', estado: true },
-  { idArea: 5, idSubarea: 9, idCriador: 5, idAdmin: 1, idPosto: 5, titulo: 'Exposição de Alojamento', descricao: 'Exposição de Alojamento na cidade de Vila Real', data: '2024-05-01', hora: '12:00:00', morada: 'Vila Real', estado: true },
+  { idArea: 5, idSubarea: 9, idCriador: 1, idAdmin: 1, idPosto: 4, titulo: 'Feira de Turismo Rural', descricao: 'Feira dedicada ao turismo rural e alojamento local em Portalegre', data: '2024-07-05', hora: '10:00:00', morada: 'Parque de Feiras e Exposições de Portalegre', estado: true, foto: 'turismo-portalegre.jpg' },
+  { idArea: 5, idSubarea: 10, idCriador: 2, idAdmin: 2, idPosto: 5, titulo: 'Conferência de Hotelaria Sustentável', descricao: 'Conferência sobre práticas sustentáveis na hotelaria em Vila Real', data: '2024-11-22', hora: '09:00:00', morada: 'Hotel Mira Corgo, Vila Real', estado: true },
 
-  // Transportes
-  { idArea: 6, idSubarea: 12, idCriador: 2, idAdmin: 3, idPosto: 2, titulo: 'Exposição de Transportes Públicos', descricao: 'Exposição de Transportes Públicos na cidade de Tomar', data: '2024-07-01', hora: '11:00:00', morada: 'Tomar', estado: true },
-  { idArea: 6, idSubarea: 11, idCriador: 3, idAdmin: 4, idPosto: 3, titulo: 'Carpooling Meetup', descricao: 'Carpooling Meetup na cidade de Fundão', data: '2024-05-01', hora: '12:00:00', morada: 'Fundão', estado: true },
+  { idArea: 6, idSubarea: 11, idCriador: 3, idAdmin: 3, idPosto: 1, titulo: 'Exposição de Veículos Elétricos', descricao: 'Exposição e test-drive de veículos elétricos em Viseu', data: '2024-05-18', hora: '09:00:00', morada: 'Feira de São Mateus, Viseu', estado: true, foto: 'eletricos-viseu.jpg' },
+  { idArea: 6, idSubarea: 12, idCriador: 4, idAdmin: 4, idPosto: 2, titulo: 'Passeio de Bicicleta Histórico', descricao: 'Passeio de bicicleta pelos pontos históricos de Tomar', data: '2024-06-25', hora: '10:00:00', morada: 'Convento de Cristo, Tomar', estado: true },
 
-  // Lazer
-  { idArea: 7, idSubarea: 13, idCriador: 4, idAdmin: 5, idPosto: 4, titulo: 'Festival de Cinema', descricao: 'Festival de Cinema na cidade de Portalegre', data: '2024-03-01', hora: '10:00:00', morada: 'Portalegre', estado: true },
-  { idArea: 7, idSubarea: 14, idCriador: 5, idAdmin: 1, idPosto: 5, titulo: 'Passeio no Parque', descricao: 'Passeio no Parque na cidade de Vila Real', data: '2024-07-01', hora: '11:00:00', morada: 'Vila Real', estado: true },
-  { idArea: 7, idSubarea: 13, idCriador: 1, idAdmin: 2, idPosto: 1, titulo: 'Noite de Cinema ao Ar Livre', descricao: 'Noite de Cinema ao Ar Livre na cidade de Viseu', data: '2024-05-01', hora: '12:00:00', morada: 'Viseu', estado: true, foto: 'cinemaPg.jpg' },
-  { idArea: 7, idSubarea: 14, idCriador: 5, idAdmin: 6, idPosto: 1, titulo: 'Verão no Parque', descricao: 'Em contagem decrescente para o verão na Cidade-Jardim, está tudo a postos para mais uma edição de sucesso da iniciativa municipal “Verão no Parque”, que regressa ao Parque Aquilino Ribeiro entre os dias 29 de maio e 28 de julho.', data: '2024-06-25', hora: '12:00:00', morada: 'Parque Aquilino Ribeiro, Viseu', estado: true, foto: 'viseuverao.jpg' },
-  { idArea: 7, idSubarea: 14, idCriador: 5, idAdmin: 6, idPosto: 1, titulo: 'Feira de São Mateus', descricao: 'A Feira de São Mateus é a mais antiga feira popular de Portugal, e uma das mais antigas do mundo. Realiza-se anualmente em Viseu, Portugal, desde 1394.', data: '2024-08-08', hora: '12:00:00', morada: 'Pavilhão Multiusos de Viseu, Viseu', estado: true, foto: 'feirasaomateus.jpg' },
+  { idArea: 7, idSubarea: 13, idCriador: 5, idAdmin: 5, idPosto: 3, titulo: 'Festival de Música da Beira', descricao: 'Festival de música com artistas nacionais e internacionais no Fundão', data: '2024-10-05', hora: '19:00:00', morada: 'Pavilhão Multiusos do Fundão', estado: true, foto: 'musica-fundao.jpg' },
+  { idArea: 7, idSubarea: 14, idCriador: 6, idAdmin: 6, idPosto: 4, titulo: 'Bienal de Arte Contemporânea', descricao: 'Bienal de arte contemporânea com foco em artistas emergentes em Portalegre', data: '2024-11-10', hora: '10:00:00', morada: 'Centro de Artes do Espectáculo de Portalegre', estado: true }
 ];
 
 const estabelecimentos = [
-  // Saúde
-  {
-    idArea: 1,
-    idSubarea: 1,
-    idCriador: 1,
-    idAdmin: 1,
-    idPosto: 1,
-    nome: 'CUF Viseu',
-    descricao: 'O Hospital CUF Viseu é a primeira unidade CUF na zona Centro do país, possibilitando o acesso a serviços de saúde de excelência por parte dos viseenses.\n\nEste hospital disponibiliza a tecnologia mais avançada para poder prestar um serviço de excelência aos seus clientes. Uma resposta global em termos de prestação de cuidados de saúde, incluindo uma gama de equipamentos que permitem responder a todas as necessidades, desde a prevenção, passando pelo diagnóstico e até ao tratamento.',
-    morada: 'CUF Viseu, Rua do Belo Horizonte, nº 12 e 14, 3500-612 Viseu',
-    estado: true,
-    foto: 'cufViseu.jpg',
-  },
-  {
-    idArea: 1,
-    idSubarea: 1,
-    idCriador: 1,
-    idAdmin: 3,
-    idPosto: 1,
-    nome: 'Clínica Médica Dentária de Viseu',
-    descricao: 'Clinica dentária.',
-    morada: 'Av. Dr. António José de Almeida nº 267 1ºesq, 3510-047 Viseu',
-    estado: true,
-    foto: 'clinicaDentaria.jpg',
-  },
-
-  {
-    idArea: 1,
-    idSubarea: 1,
-    idCriador: 3,
-    idAdmin: 3,
-    idPosto: 1,
-    nome: 'Hospital São Teotónio',
-    descricao: 'Hospital de Viseu, oferecendo serviços de emergência',
-    morada: 'Av. Rei Dom Duarte, 3504-509 Viseu',
-    estado: true,
-    foto: 'saoTeotoneo.jpg',
-  },
-
-  // Desporto
-  {
-    idArea: 2,
-    idSubarea: 3,
-    idCriador: 3,
-    idAdmin: 2,
-    idPosto: 1,
-    nome: 'FFitness Health Club Viseu',
-    descricao: 'O seu espaço de Saúde . Um espaço distinto, Bar, Musculação, Aulas de grupo, Piscina...',
-    morada: 'Rua Dr. Nascimento Ferreira, Urbanização Val Rio L. 1, 3510-431 Viseu',
-    estado: true,
-    foto: 'ffitness.jpg',
-  },
-  {
-    idArea: 2,
-    idSubarea: 3,
-    idCriador: 3,
-    idAdmin: 2,
-    idPosto: 1,
-    nome: 'Element Gym Repeses',
-    descricao: 'A revolução do fitness chegou finalmente a Viseu',
-    morada: 'Ginásio Element Viseu',
-    estado: true,
-    foto: 'element.jpg',
-  },
-
-  {
-    idArea: 2,
-    idSubarea: 4,
-    idCriador: 4,
-    idAdmin: 1,
-    idPosto: 1,
-    nome: 'Campo de futebol de 7',
-    descricao: 'Campo de futebol',
-    morada: 'Av. José Relvas, Viseu',
-    estado: true,
-    foto: 'campode7.jpg',
-  },
-
-
-
-  // Formação
-  {
-    idArea: 3,
-    idSubarea: 6,
-    idCriador: 5,
-    idAdmin: 3,
-    idPosto: 1,
-    nome: 'Escola Secundária Alves Martins',
-    descricao: 'escola em Viseu 7º-12º ano',
-    morada: 'Escola Secundária Alves Martins',
-    estado: true,
-    foto: 'alvesMartins.jpg',
-  },
-
-  {
-    idArea: 3,
-    idSubarea: 5,
-    idCriador: 4,
-    idAdmin: 1,
-    idPosto: 1,
-    nome: 'SchoolCenter',
-    descricao: 'A SchoolCenter é um Centro de Formação Profissional, localizado em Viseu, que está certificado pela DGERT e oferece inúmeros cursos',
-    morada: 'Rua Santa Isabel 2, R/C Direito Repeses, 3500-726 Viseu',
-    estado: true,
-    foto: 'schoolCenter.jpg',
-  },
-
-  {
-    idArea: 3,
-    idSubarea: 6,
-    idCriador: 5,
-    idAdmin: 2,
-    idPosto: 1,
-    nome: 'Escola Superior de Tecnologia e Gestão de Viseu',
-    descricao: 'Escola Superior de Tecnologia e Gestão de Viseu',
-    morada: 'Av. Cidade Politécnica, Viseu',
-    estado: true,
-    foto: 'estgv.jpg',
-  },
-
-
-
-
-
-  // Gastronomia
-
-  {
-    idArea: 4,
-    idSubarea: 7,
-    idCriador: 1,
-    idAdmin: 3,
-    idPosto: 1,
-    nome: 'Restaurante Santa Luzia',
-    descricao: 'Santa Luzia · Cozinha regional Beirã no seu melhor! · Há mais de 40 anos a marcar a gastronomia da região de Viseu',
-    morada: 'Igreja de Moure de Madalena, Estrada Nacional 2, 3515-331 Viseu',
-    estado: true,
-    foto: 'santaLuzia.jpg',
-  },
-  {
-    idArea: 4,
-    idSubarea: 8,
-    idCriador: 1,
-    idAdmin: 4,
-    idPosto: 1,
-    nome: 'Palacio do Gelo',
-    descricao: 'Inaugurado em 2008, destaca-se pelas suas características arquitetónicas únicas, com mais de 150 lojas, incluindo 30 restaurantes, cafés, pastelarias e gelatarias, 6 salas de cinema, um dos maiores Health Clubs do país e uma Pista de Gelo, aberta todo o ano.',
-    morada: 'R. do Palacio do Gelo 3, 3504-526 Viseu',
-    estado: true,
-    foto: 'PG.jpg',
-  },
-
-
-
-  // Alojamento
-
-
-  {
-    idArea: 5,
-    idSubarea: 10,
-    idCriador: 5,
-    idAdmin: 5,
-    idPosto: 1,
-    nome: 'Arrendamento de Apartamento',
-    descricao: 'Apartamento T3 , quinta da Ramalhosa, 1.200 €/mês , 157 m² área bruta, com generoso terraço, localizado na Colina Verde, em Viseu.',
-    morada: 'Viseu',
-    estado: true,
-    foto: 'casa1.jpg',
-  },
-
-
-
-  // Transportes
-
-  {
-    idArea: 6,
-    idSubarea: 12,
-    idCriador: 2,
-    idAdmin: 2,
-    idPosto: 1,
-    nome: 'Central de Camionagem MUV',
-    descricao: ' Central de Transportes públicos em Viseu',
-    morada: 'Estação Rodoviária de Viseu, Viseu',
-    estado: true,
-    foto: 'centralViseu.jpg',
-  },
-
-
-  { idArea: 6, idSubarea: 12, idCriador: 2, idAdmin: 3, idPosto: 2, nome: 'Transportes Tomar', descricao: 'Transportes públicos na cidade de Tomar', morada: 'Tomar', estado: true },
-  { idArea: 6, idSubarea: 11, idCriador: 3, idAdmin: 4, idPosto: 3, nome: 'Carpooling Fundão', descricao: 'Serviço de carpooling na cidade de Fundão', morada: 'Fundão', estado: true },
-
-  // Lazer
-
-  {
-    idArea: 7,
-    idSubarea: 13,
-    idCriador: 4,
-    idAdmin: 5,
-    idPosto: 1,
-    nome: 'Cinema NOS',
-    descricao: 'Cinemas NOS Palácio do Gelo',
-    morada: 'Palácio do Gelo, Viseu',
-    estado: true,
-    foto: 'cinemaPg.jpg',
-  },
-
-  {
-    idArea: 7,
-    idSubarea: 14,
-    idCriador: 5,
-    idAdmin: 1,
-    idPosto: 1,
-    nome: 'Parque Da Cidade',
-    descricao: 'O Parque Aquilino Ribeiro (também chamado Parque da Cidade de Viseu) é um parque público localizado na cidade de Viseu',
-    morada: 'Parque Aquilino Ribeiro,',
-    estado: true,
-    foto: 'parqueCidade.jpg',
-  },
-  {
-    idArea: 7,
-    idSubarea: 14,
-    idCriador: 3,
-    idAdmin: 5,
-    idPosto: 1,
-    nome: 'Parque de Santiago',
-    descricao: 'Parque urbano na cidade de Viseu, venha e traga a sua famílias para deliciosos piqueniques e passeios!',
-    morada: 'Parque de Santiago, Viseu',
-    estado: true,
-    foto: 'parqueSaoTiago.jpg',
-  },
+  { idArea: 1, idSubarea: 1, idCriador: 1, idAdmin: 1, idPosto: 1, nome: 'Clínica Médica Viseu', descricao: 'Clínica especializada em medicina geral e familiar', morada: 'Rua Dr. Luís Ferreira, 3500-117 Viseu', estado: true, foto: 'clinica-viseu.jpg' },
+  { idArea: 2, idSubarea: 4, idCriador: 2, idAdmin: 2, idPosto: 2, nome: 'Ginásio TomarFit', descricao: 'Ginásio com aulas de grupo e personal trainers', morada: 'Avenida Norton de Matos, 2300-313 Tomar', estado: true, foto: 'tomarfit.jpg' },
+  { idArea: 3, idSubarea: 7, idCriador: 3, idAdmin: 3, idPosto: 3, nome: 'Centro de Formação Fundão', descricao: 'Centro de formação profissional em diversas áreas', morada: 'Rua Cidade da Covilhã, 6230-346 Fundão', estado: true, foto: 'formacao-fundao.jpg' },
+  { idArea: 4, idSubarea: 10, idCriador: 4, idAdmin: 4, idPosto: 4, nome: 'Restaurante Gourmet', descricao: 'Restaurante de cozinha gourmet com pratos internacionais', morada: 'Largo do Mercado, 7300-150 Portalegre', estado: true, foto: 'gourmet.jpg' },
+  { idArea: 5, idSubarea: 12, idCriador: 5, idAdmin: 5, idPosto: 5, nome: 'Hostel Vila Real', descricao: 'Hostel económico no centro da cidade', morada: 'Rua do Comércio, 5000-123 Vila Real', estado: true, foto: 'hostel-vilareal.jpg' },
+  { idArea: 6, idSubarea: 14, idCriador: 6, idAdmin: 6, idPosto: 1, nome: 'Rent-a-Car Viseu', descricao: 'Empresa de aluguer de veículos ligeiros e comerciais', morada: 'Rua Alexandre Herculano, 3500-035 Viseu', estado: true, foto: 'rentacar-viseu.jpg' },
+  { idArea: 7, idSubarea: 15, idCriador: 7, idAdmin: 7, idPosto: 2, nome: 'Cinema Tomar', descricao: 'Cinema com exibição de filmes nacionais e internacionais', morada: 'Avenida Marquês de Tomar, 2300-586 Tomar', estado: true, foto: 'cinema-tomar.jpg' }
 ];
 
-const AvaliacoesEstabelecimento = [
-  { idUtilizador: 1, idAdmin: 1, idEstabelecimento: 1, classificacao: 5, comentario: 'Serviço bastante rápido e de qualidade, o meu sítio de eleição para todo o tipo de consultas', estado: true },
-  { idUtilizador: 2, idAdmin: 2, idEstabelecimento: 1, classificacao: 4, estado: true },
-  { idUtilizador: 3, idAdmin: 3, idEstabelecimento: 1, classificacao: 3, estado: true },
-  { idUtilizador: 4, idAdmin: 4, idEstabelecimento: 1, classificacao: 2, estado: true },
-  { idUtilizador: 5, idAdmin: 5, idEstabelecimento: 1, classificacao: 1, estado: true },
-  { idUtilizador: 1, idAdmin: 1, idEstabelecimento: 1, classificacao: 5, estado: true },
-  { idUtilizador: 2, idAdmin: 2, idEstabelecimento: 1, classificacao: 4, estado: true },
-  { idUtilizador: 6, idAdmin: 1, idEstabelecimento: 1, classificacao: 5, comentario: 'O meu sítio de eleição para cuidar da minha saúde, sempre fui bastante bem recebido', estado: true },
+const carregarTabelas = async () => {
+  try {
+    await sequelize.sync({ force: true });
+    await User.bulkCreate(utilizadores);
+    await Area.bulkCreate(areas);
+    await Subarea.bulkCreate(subareas);
+    await Post.bulkCreate(postos);
+    await Event.bulkCreate(eventos);
+    await Establishment.bulkCreate(estabelecimentos);
 
-];
-
-// Gerar novas avaliações para estabelecimentos de 2 a 20
-for (let estabelecimentoIndex = 2; estabelecimentoIndex <= 18; estabelecimentoIndex++) {
-  for (let utilizadorIndex = 1; utilizadorIndex <= 5; utilizadorIndex++) {
-    AvaliacoesEstabelecimento.push({
-      idUtilizador: utilizadorIndex,
-      idAdmin: utilizadorIndex, // Supondo que idAdmin corresponde ao idUtilizador
-      idEstabelecimento: estabelecimentoIndex,
-      classificacao: Math.floor(Math.random() * 5) + 1, // Gera uma classificação aleatória entre 1 e 5
-      estado: true
-    });
+    console.log('Tabelas carregadas com sucesso!');
+  } catch (error) {
+    console.error('Erro ao carregar tabelas:', error);
   }
-}
+};
 
-
-const FotosEvento = [
-  { idEvento: 1, foto: 'cufViseu.jpg', idAdmin: 1, idCriador: 1, estado: 1 },
-  { idEvento: 21, foto: 'viseuverao.jpg', idAdmin: 1, idCriador: 1, estado: 1 },
-  { idEvento: 11, foto: 'vinho.jpg', idAdmin: 1, idCriador: 1, estado: 1 },
-  { idEvento: 22, foto: 'feirasaomateus.jpg', idAdmin: 1, idCriador: 1, estado: 1 },
-];
-
-const FotosEstabelecimento = [
-  { idEstabelecimento: 1, foto: 'cufViseu.jpg', idAdmin: 1, idCriador: 1, estado: 1 },
-];
-
-// Avaliações existentes para o evento 1
-const AvaliacoesEvento = [
-  { idUtilizador: 1, idAdmin: 1, idEvento: 1, classificacao: 5, estado: true },
-  { idUtilizador: 2, idAdmin: 2, idEvento: 1, classificacao: 4, estado: true },
-  { idUtilizador: 3, idAdmin: 3, idEvento: 1, classificacao: 3, estado: true },
-  { idUtilizador: 4, idAdmin: 4, idEvento: 1, classificacao: 2, estado: true },
-  { idUtilizador: 5, idAdmin: 5, idEvento: 1, classificacao: 1, estado: true },
-  { idUtilizador: 1, idAdmin: 1, idEvento: 1, classificacao: 5, estado: true },
-  { idUtilizador: 2, idAdmin: 2, idEvento: 1, classificacao: 4, estado: true },
-  { idUtilizador: 6, idAdmin: 1, idEvento: 21, classificacao: 5, comentario: 'Perfeito para levar a família e amigos, especialmente com este calor que temos sentido nos últimos dias', estado: true },
-];
-
-// Gerar novas avaliações para eventos de 2 a 20
-for (let eventoIndex = 2; eventoIndex <= 22; eventoIndex++) {
-  for (let utilizadorIndex = 1; utilizadorIndex <= 5; utilizadorIndex++) {
-    AvaliacoesEvento.push({
-      idUtilizador: utilizadorIndex,
-      idAdmin: utilizadorIndex, // Supondo que idAdmin corresponde ao idUtilizador
-      idEvento: eventoIndex,
-      classificacao: Math.floor(Math.random() * 5) + 1, // Gera uma classificação aleatória entre 1 e 5
-      estado: true
-    });
-  }
-}
-
-const Inscricoes = [];
-
-for (let eventoIndex = 1; eventoIndex <= 22; eventoIndex++) {
-  for (let utilizadorIndex = 1; utilizadorIndex <= 6; utilizadorIndex++) {
-    Inscricoes.push({
-      idUtilizador: utilizadorIndex,
-      idEvento: eventoIndex,
-      estado: true,
-    });
-  }
-}
-
-const Notificacoes = [
-  { idUtilizador: 6, titulo: "Nova avaliação!", descricao: 'Tem uma nova avaliação no evento "Campanha de Saúde"', estado: false },
-  { idUtilizador: 6, titulo: "Nova inscrição no seu evento!", descricao: 'Tem uma nova inscrição no evento "Campanha de Saúde"', estado: true },
-  { idUtilizador: 6, titulo: "Quase a chegar!", descricao: 'Falta menos de uma semana para "Campanha de Saúde"!', estado: false },
-]
-
-const carregarTabelas = () => {
-  sequelize.sync({ force: true })
-    .then(() => {
-      return Posto.bulkCreate(postos);
-    })
-    .then(() => {
-      return Utilizador.bulkCreate(utilizadores);
-    })
-    .then(() => {
-      return Area.bulkCreate(areas);
-    })
-    .then(() => {
-      return Subarea.bulkCreate(subareas);
-    })
-    .then(() => {
-      return Evento.bulkCreate(eventos);
-    })
-    .then(() => {
-      return Estabelecimento.bulkCreate(estabelecimentos);
-    })
-    .then(() => {
-      return AvaliacaoEstabelecimento.bulkCreate(AvaliacoesEstabelecimento);
-    })
-    .then(() => {
-      return AvaliacaoEvento.bulkCreate(AvaliacoesEvento);
-    })
-    .then(() => {
-      return FotoEvento.bulkCreate(FotosEvento);
-    })
-    .then(() => {
-      return FotoEstabelecimento.bulkCreate(FotosEstabelecimento);
-    })
-    .then(() => {
-      return Inscricao.bulkCreate(Inscricoes);
-    })
-    .then(() => {
-      return Notificacao.bulkCreate(Notificacoes);
-    })
-    .catch((error) => {
-      console.error('Erro ao carregar tabelas:', error);
-    });
-}
 
 module.exports = carregarTabelas;

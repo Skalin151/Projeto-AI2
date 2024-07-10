@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles';
 const tema = createTheme({
   palette: {
     primary: {
-      main: '#1D324F',
+      main: '#00B7FF',
     },
     secondary: {
       main: '#FFFFFF',
@@ -21,7 +21,7 @@ const tema = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: '#ffff',
-          color: '#1D324F',
+          color: '#00B7FF',
           borderRadius: '10px',
         },
         cell: {
@@ -29,7 +29,7 @@ const tema = createTheme({
         },
         columnHeaders: {  
           backgroundColor: '#FFFF',
-          color: '#1D324F',
+          color: '#00B7FF',
         },
         footerContainer: {
           backgroundColor: '#FFFF',

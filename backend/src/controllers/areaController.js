@@ -1,7 +1,7 @@
 const Area = require('../models/areaModel');
-const Subarea = require('../models/subareaModel');
+const Subarea = require('../models/subareaModel')
 
-exports.listarAreas = async (req, res) => {
+exports.AreaList = async (req, res) => {
     try {
         const data = await Area.findAll();
         res.json({
@@ -16,7 +16,7 @@ exports.listarAreas = async (req, res) => {
     }
 }
 
-exports.listarSubareas = async (req, res) => {
+exports.SubareaList = async (req, res) => {
     try {
         const { areaId } = req.params;
         const data = await Subarea.findAll({
@@ -38,7 +38,7 @@ exports.listarSubareas = async (req, res) => {
     }
 }
 
-exports.criarArea = async (req, res) => {
+exports.AreaCreate = async (req, res) => {
     try {
         const data = await Area.create(req.body);
         res.json({

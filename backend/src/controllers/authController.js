@@ -3,10 +3,10 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const nodemailer = require('nodemailer');
-const Utilizador = require('../models/utilizadorModel');
+const User = require('../models/userModel');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 require('dotenv').config();
-const gerarToken = require('../middlewares/gerarToken');
+const gerarToken = require('../middlewares/Token');
 
 exports.login = async (req, res) => {
   try {
@@ -16,7 +16,7 @@ exports.login = async (req, res) => {
       return res.status(400).send({ error: 'Preencha todos os campos' });
     }
 
-    const user = await Utilizador.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email } });
 
     if (!user) {
       return res.status(401).send({ error: 'Utilizador não encontrado' });
@@ -60,7 +60,7 @@ exports.loginMobile = async (req, res) => {
       return res.status(400).send({ error: 'Preencha todos os campos' });
     }
 
-    const user = await Utilizador.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email } });
 
     if (!user) {
       return res.status(401).send({ error: 'Utilizador não encontrado' });
@@ -97,7 +97,7 @@ exports.loginMobile = async (req, res) => {
 };
 
 
-exports.criarConta = async (req, res) => {
+exports.AccountCreate = async (req, res) => {
   try {
     const { nome, email } = req.body;
 
@@ -105,7 +105,7 @@ exports.criarConta = async (req, res) => {
       return res.status(400).send({ error: 'Preencha todos os campos' });
     }
 
-    const user = await Utilizador.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email } });
     if (user) {
       return res.status(400).send({ error: 'Email já está em uso' });
     }
@@ -115,7 +115,7 @@ exports.criarConta = async (req, res) => {
 
     const verificationToken = crypto.randomBytes(32).toString('hex');
  
-    const novoUser = await Utilizador.create({
+    const novoUser = await User.create({
       nome,
       email,
       palavra_passe: hashedPassword,
@@ -139,7 +139,7 @@ exports.criarConta = async (req, res) => {
   }
 };
 
-exports.verificarEmail = async (req, res) => {
+exports.VerifyEmail = async (req, res) => {
   try {
     const { token } = req.body || req.query; 
 
@@ -147,7 +147,7 @@ exports.verificarEmail = async (req, res) => {
       return res.status(400).send({ error: 'Token de verificação não fornecido' });
     }
 
-    const user = await Utilizador.findOne({ where: { verificationToken: token } });
+    const user = await User.findOne({ where: { verificationToken: token } });
     if (!user) {
       return res.status(400).send({ error: 'Token de verificação inválido' });
     }
@@ -164,11 +164,11 @@ exports.verificarEmail = async (req, res) => {
 };
  
 
-exports.recuperarPasse = async (req, res) => {
+exports.RecoverPassword = async (req, res) => {
   try {
     const { email } = req.body;
 
-    const user = await Utilizador.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email } });
     if (!user) {
       return res.status(400).send({ error: 'Utilizador não encontrado' });
     }
@@ -191,11 +191,11 @@ exports.recuperarPasse = async (req, res) => {
   }
 };
 
-exports.resetarPasse = async (req, res) => {
+exports.ResetPassword = async (req, res) => {
   try {
     const { token, novaPass } = req.body;
 
-    const user = await Utilizador.findOne({ where: { recoveryToken: token } });
+    const user = await User.findOne({ where: { recoveryToken: token } });
     if (!user) {
       return res.status(400).send({ error: 'Token inválido' });
     }
@@ -259,7 +259,7 @@ exports.google = async (req, res) => {
     const foto = payload['picture'];
     const id_google = payload['sub'];
 
-    let user = await Utilizador.findOne({ where: { email } });
+    let user = await User.findOne({ where: { email } });
 
     if (!user) {
       const respostaCriarConta = await criarContaGoogleHandler({ nome, email, foto, id_google });
@@ -278,7 +278,7 @@ exports.google = async (req, res) => {
 const loginGoogleHandler = async (req) => {
   try {
     const { email } = req.body;
-    const user = await Utilizador.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email } });
     const token = gerarToken(user);
     return { token, message: 'Login realizado com sucesso' };
   } catch (error) {
@@ -292,7 +292,7 @@ const criarContaGoogleHandler = async ({ nome, email, foto, id_google}) => {
       throw new Error('Nome e email são necessários');
     }
 
-    const existingUser = await Utilizador.findOne({ where: { email } });
+    const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       throw new Error('Email já está em uso');
     }
@@ -300,7 +300,7 @@ const criarContaGoogleHandler = async ({ nome, email, foto, id_google}) => {
     const password = crypto.randomBytes(10).toString('hex');
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const novoUser = await Utilizador.create({
+    const novoUser = await User.create({
       nome,
       email,
       palavra_passe: hashedPassword,

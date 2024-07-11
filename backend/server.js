@@ -21,7 +21,6 @@ app.use((req, res, next) => {
   next();
 });
 
-{ /* Carregar automaticamente as tabelas com dados pré-feitos, apenas retirar comentário para ativar e adicionar comentário outra vez depois */ } 
 const carregarTabelas = require('./src/utils/carregarTabelas'); 
 carregarTabelas();   
 
@@ -37,7 +36,6 @@ const notificacaoRoutes = require('./src/routes/notificationRoutes');
 const fotoRoutes = require('./src/routes/photoRoutes');
 const estatisticaRoutes = require('./src/routes/statRoutes');
 
-// Rotas da API
 app.use('/', authRoutes);
 app.use('/eventos', eventoRoutes);
 app.use('/areas', areaRoutes);

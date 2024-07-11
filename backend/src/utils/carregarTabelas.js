@@ -4,12 +4,12 @@ const Subarea = require('../models/subareaModel');
 const Post = require('../models/postModel');
 const Event = require('../models/eventModel');
 const Establishment = require('../models/establishmentModel');
-const EstablishmentReview = require('../models/establishmentReviewModel');
-const EventReview = require('../models/eventReviewModel');
-const EstablishmentPhoto = require('../models/establishmentPhoto');
-const EventPhoto = require('../models/eventPhotoModel');
-const SignUp = require('../models/signupModel');
-const Notification = require('../models/notificationModel');
+//const EstablishmentReview = require('../models/establishmentReviewModel');
+//const EventReview = require('../models/eventReviewModel');
+//const EstablishmentPhoto = require('../models/establishmentPhoto');
+//const EventPhoto = require('../models/eventPhotoModel');
+//const SignUp = require('../models/signupModel');
+//const Notification = require('../models/notificationModel');
 const { sequelize } = require('./database');
 
 const utilizadores = [
@@ -20,8 +20,10 @@ const utilizadores = [
   { nome: 'Sofia Martins', nif: '567890123', localidade: 'Vila Real', telemovel: '956789012', email: 'sofia.martins@email.pt', estado: true, isAdmin: false, cargo: 'Chef de Cozinha' },
   { nome: 'Rui Ferreira', nif: '678901234', localidade: 'Viseu', telemovel: '967890123', email: 'rui.ferreira@email.pt', estado: true, isAdmin: false, cargo: 'Gestor de Alojamento' },
   { nome: 'Carla Rodrigues', nif: '789012345', localidade: 'Tomar', telemovel: '978901234', email: 'carla.rodrigues@email.pt', estado: true, isAdmin: false, cargo: 'Coordenador de Transportes' },
-  { nome: 'Miguel Alves', nif: '890123456', localidade: 'Fundão', telemovel: '989012345', email: 'miguel.alves@email.pt', estado: true, isAdmin: true, cargo: 'Diretor de Lazer' }
-];
+  { nome: 'Miguel Alves', nif: '890123456', localidade: 'Fundão', telemovel: '989012345', email: 'miguel.alves@email.pt', estado: true, isAdmin: true, cargo: 'Diretor de Lazer' },
+  
+  { nome: 'Teste', email: 'teste@email.com', palavra_passe: '$2a$12$IRNTeNMzdvl6NqmSCZk2MePWzptB0jR20HWnvl9XCpRWfDhUjER36', estado: true, isAdmin: true, isPrimeiroLogin: false, cargo: 'Teste'}
+];                                                           //17268015
 
 const areas = [
   { nome: 'Saúde' },

@@ -23,7 +23,7 @@ const storageEstablishments = multer.diskStorage({
 
 
 const storageUsers = multer.diskStorage({
-    destination: './uploads/user',
+    destination: './uploads/users',
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname);
         const filename = file.fieldname + '-' + Date.now() + '-' + path.basename(file.originalname, ext) + ext;

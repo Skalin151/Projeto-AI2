@@ -70,7 +70,7 @@ const GoogleAuth = () => {
   };
 
   return (
-    <GoogleOAuthProvider clientId="104348306910-f5tbgkc3udd9jphc4i44vgdsv7jing48.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="891447118603-12alldb32vt5c4n80tge01dfl53da1eq.apps.googleusercontent.com">
       <GoogleLogin
         onSuccess={handleSuccess}
         onError={handleError}

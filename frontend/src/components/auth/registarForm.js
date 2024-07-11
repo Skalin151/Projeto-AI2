@@ -26,7 +26,7 @@ function RegistarForm() {
         title: 'Sucesso!',
         text: response.data.message,
         icon: 'success',
-        confirmButtonColor: '#1D324F',
+        confirmButtonColor: '##00B7FF',
         willClose: () => {
           navigate('/login');
         },
@@ -37,14 +37,14 @@ function RegistarForm() {
           title: 'Erro!',
           text: error.response.data.error,
           icon: 'error',
-          confirmButtonColor: '#1D324F',
+          confirmButtonColor: '##00B7FF',
         });
       } else {
         Swal.fire({
           title: 'Erro!',
           text: 'Erro ao registar. Por favor, tente novamente.',
           icon: 'error',
-          confirmButtonColor: '#1D324F',
+          confirmButtonColor: '##00B7FF',
         });
       }
     }
@@ -58,7 +58,7 @@ function RegistarForm() {
         title: 'Erro!',
         text: 'Você deve aceitar os termos e condições para continuar.',
         icon: 'error',
-        confirmButtonColor: '#1D324F',
+        confirmButtonColor: '##00B7FF',
       });
       return;
     }

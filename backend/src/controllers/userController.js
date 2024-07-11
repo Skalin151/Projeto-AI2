@@ -201,7 +201,7 @@ exports.UserPhotoGet = async (req, res) => {
       return res.status(404).send({ message: 'Foto não encontrada' });
     }
 
-    res.sendFile(utilizador.foto, { root: './uploads/utilizador' });
+    res.sendFile(utilizador.foto, { root: './uploads/users' });
   } catch (error) {
     console.error('Erro ao encontrar foto do utilizador:', error);
     res.status(500).send({ error: 'Erro interno do servidor' });

@@ -1,14 +1,14 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../utils/database');
+const { Sequelize } = require('sequelize');
+const { SequelizeDB } = require('../utils/database');
 
-const Area = sequelize.define('Area', {
+const Area = SequelizeDB.define('Area', {
   id: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
-  nome: DataTypes.STRING,
-  iconeId: DataTypes.INTEGER,
+  nome: Sequelize.STRING,
+  iconeId: Sequelize.INTEGER,
 }, 
   
   

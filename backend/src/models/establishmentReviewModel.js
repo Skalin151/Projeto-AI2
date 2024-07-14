@@ -1,16 +1,16 @@
-  const { DataTypes } = require('sequelize');
-  const {sequelize} = require('../utils/database');
+  const { Sequelize } = require('sequelize');
+  const {SequelizeDB} = require('../utils/database');
   const Establishment = require('./establishmentModel');
   const User = require('./userModel');
 
-  const EstablishmentReview = sequelize.define('EstablishmentReview', {
+  const EstablishmentReview = SequelizeDB.define('EstablishmentReview', {
     id: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
     idUtilizador: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: false,
       references: {
         model: 'User',
@@ -18,7 +18,7 @@
       }
     },
     idAdmin: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: true,
       references: {
         model: 'User',
@@ -26,7 +26,7 @@
       }
     },
     idEstabelecimento: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: false,
       references: {
         model: 'Establishment',
@@ -34,35 +34,35 @@
       }
     },
     classificacao: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: false
     },
     comentario: {
-      type: DataTypes.STRING(1000),
+      type: Sequelize.STRING(1000),
       allowNull: true
     },
     estado: {
-      type: DataTypes.BOOLEAN,
+      type: Sequelize.BOOLEAN,
       allowNull: false,
       defaultValue: false
     },
     data: {
-      type: DataTypes.DATE,
+      type: Sequelize.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW
+      defaultValue: Sequelize.NOW
     },
     upvotes: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: false,
       defaultValue: 0
     },
     downvotes: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: false,
       defaultValue: 0
     }, 
     idPai: {
-  type: DataTypes.INTEGER,
+  type: Sequelize.INTEGER,
   allowNull: true, 
   references: {
     model: 'EstablishmentReview',

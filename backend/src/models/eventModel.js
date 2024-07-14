@@ -1,18 +1,18 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../utils/database');
+const { Sequelize } = require('sequelize');
+const { SequelizeDB } = require('../utils/database');
 const Area = require('./areaModel');
 const Subarea = require('./subareaModel');
 const User = require('./userModel');
 const Post = require('./postModel');
 
-const Event = sequelize.define('Event', {
+const Event = SequelizeDB.define('Event', {
   id: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
   idArea: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: 'Area',
@@ -20,7 +20,7 @@ const Event = sequelize.define('Event', {
     }
   },
   idSubarea: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: 'Subarea',
@@ -28,7 +28,7 @@ const Event = sequelize.define('Event', {
     }
   },
   idCriador: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: 'User',
@@ -36,7 +36,7 @@ const Event = sequelize.define('Event', {
     }
   },
   idAdmin: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: true,
     references: {
       model: 'User',
@@ -44,7 +44,7 @@ const Event = sequelize.define('Event', {
     }
   },
   idPosto: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: 'Post',
@@ -52,43 +52,43 @@ const Event = sequelize.define('Event', {
     }
   },
   titulo: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: false
   },
   descricao: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: false
   },
   data: {
-    type: DataTypes.DATEONLY,
+    type: Sequelize.DATEONLY,
     allowNull: false
   },
   hora: {
-    type: DataTypes.TIME,
+    type: Sequelize.TIME,
     allowNull: false
   },
   morada: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true,
   },
   telemovel : {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true
   },
   email : {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true
   },
   estado: {
-    type: DataTypes.BOOLEAN,
+    type: Sequelize.BOOLEAN,
     defaultValue: false
   },
   foto : {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true
   },
   inscricaoAberta: {
-    type: DataTypes.BOOLEAN,
+    type: Sequelize.BOOLEAN,
     defaultValue: true
   },
 },

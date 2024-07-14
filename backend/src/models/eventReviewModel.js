@@ -1,16 +1,16 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../utils/database');
+const { Sequelize } = require('sequelize');
+const { SequelizeDB } = require('../utils/database');
 const User = require('./userModel');
 const Event = require('./eventModel');
 
-const EventReview = sequelize.define('EventReview', {
+const EventReview = SequelizeDB.define('EventReview', {
   id: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
   idUtilizador: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: 'User',
@@ -18,14 +18,14 @@ const EventReview = sequelize.define('EventReview', {
     }
   },
   idAdmin: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     references: {
       model: 'User',
       key: 'id'
     }
   },
   idEvento: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: 'Event',
@@ -33,38 +33,38 @@ const EventReview = sequelize.define('EventReview', {
     }
   },
   estado: {
-    type: DataTypes.BOOLEAN,
+    type: Sequelize.BOOLEAN,
     allowNull: false,
     defaultValue: false
   },
   classificacao: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false
   },
   data: {
-    type: DataTypes.DATE,
+    type: Sequelize.DATE,
     allowNull: false,
-    defaultValue: DataTypes.NOW
+    defaultValue: Sequelize.NOW
   },
   upvotes: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     defaultValue: 0
   },
   downvotes: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     defaultValue: 0
   },
   idPai: {
-  type: DataTypes.INTEGER,
+  type: Sequelize.INTEGER,
   allowNull: true, // Permitir null para comentários iniciais
   references: {
     model: 'EventReview',
     key: 'id'
   }
 },
-  comentario: DataTypes.TEXT
+  comentario: Sequelize.TEXT
 }, 
 {
   freezeTableName: true,

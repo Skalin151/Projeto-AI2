@@ -42,54 +42,13 @@ exports.EventList = async (req, res) => {
             data: data,
         });
     } catch (err) {
-        console.error('Erro ao listar eventos:', err.message); // Adicionado log de erro detalhado
-        res.status(500).json({
-            success: false,
-            error: 'Erro: ' + err.message,
-        });
-    }
-};
-
-exports.eventosMobile = async (req, res) => {
-    const areaId = req.body.areaId || req.params.areaId || req.query.areaId;
-    const subareaId = req.body.subareaId || req.params.subareaId || req.query.subareaId;
-    const idEvento = req.body.idEvento || req.params.idEvento || req.query.idEvento;
-
-    let whereClause = { estado: true };
-    if (areaId) {
-        whereClause.idArea = areaId;
-    }
-    if (subareaId) {
-        whereClause.idSubarea = subareaId;
-    }
-    if (idEvento) {
-        whereClause.idEvento = idEvento;
-    }
-    try {
-        const data = await Event.findAll({
-            where: whereClause,
-            include: [
-                { model: Area, as: 'area', attributes: ['nome'] },
-                { model: Subarea, as: 'subarea', attributes: ['nome'] },
-                { model: Post, as: 'posto', attributes: ['nome'] },
-                { model: User, as: 'criador', attributes: ['nome'] },
-                { model: User, as: 'admin', attributes: ['nome'] }
-            ]
-        });
-        res.json({
-            success: true,
-            data: data,
-        });
-    }
-    catch (err) {
         console.error('Erro ao listar eventos:', err.message);
         res.status(500).json({
             success: false,
             error: 'Erro: ' + err.message,
         });
     }
-}
-
+};
 
 
 exports.EventGet = async (req, res) => {
@@ -143,7 +102,7 @@ exports.EventCreate = async (req, res) => {
     const foto = req.file ? req.file.filename : null;
 
     try {
-        const newEvento = await Evento.create({
+        const newEvento = await Event.create({
             titulo,
             descricao,
             data,
@@ -166,69 +125,6 @@ exports.EventCreate = async (req, res) => {
             estado: false, 
             data: new Date() 
         });
-
-        res.status(200).json({
-            success: true,
-            message: 'Evento criado com sucesso!',
-            data: newEvento,
-            notificacao: notificacao 
-        });
-    } catch (error) {
-        console.log('Error: ', error);
-        res.status(500).json({ success: false, message: "Erro ao criar o evento!" });
-    }
-};
-
-exports.CriarEventoMobile = async (req, res) => {
-    const {
-        titulo,
-        descricao,
-        data,
-        hora,
-        morada,
-        telemovel,
-        idPosto,
-        email,
-        idArea,
-        idSubarea
-    } = req.body;
-
-    const idCriador = req.user.id;
-    const foto = req.file ? req.file.filename : null;
-
-    try {
-
-        const newEvento = await Event.create({
-            titulo,
-            descricao,
-            data,
-            hora,
-            morada,
-            telemovel,
-            email,
-            foto,
-            estado: false, // Estado inicial definido como falso
-            idArea,
-            idSubarea,
-            idCriador,
-            idPosto
-        });
-
-        // Criar notificação após a criação do evento
-        const mockRes = {
-            status: () => mockRes,
-            json: (data) => { return data; }
-        };
-
-        const notificacao = await Notification.criarNotificacao({
-            body: {
-                titulo: 'Evento criado',
-                descricao: `O seu evento ${titulo} foi criado e enviado para validação!`
-            },
-            user: {
-                id: idCriador
-            }
-        }, mockRes);
 
         res.status(200).json({
             success: true,
@@ -303,22 +199,15 @@ exports.EventEdit = async (req, res) => {
 exports.EventDelete = async (req, res) => {
     const { id } = req.params;
     try {
-        // Apagar todas as avaliações associadas ao evento
         await EventReview.destroy({
             where: { idEvento: id }
         });
-
-        // Apagar todas as inscrições associadas ao evento
         await SignUp.destroy({
             where: { idEvento: id }
         });
-
-        // Apagar todas as fotos associadas ao evento
         await EventPhoto.destroy({
             where: { idEvento: id }
         });
-
-        // Apagar o evento
         const evento = await Event.destroy({
             where: { id: id }
         });
@@ -391,7 +280,7 @@ exports.EventPhotoDelete = async (req, res) => {
             res.status(404).json({ success: false, message: 'Foto não encontrada.' });
         }
     } catch (error) {
-        console.error('Erro ao remover foto:', error); // Adicione essa linha para registrar o erro no console
+        console.error('Erro ao remover foto:', error);
         res.status(500).json({ success: false, message: "Erro ao remover a foto!" });
     }
 };
@@ -490,11 +379,9 @@ exports.EventSubscriptionGet = async (req, res) => {
 }
 
 exports.EventSubscribe = async (req, res) => {
-    const { id } = req.params; // ID do evento
-    const idUtilizador = req.user.id; // ID do utilizador a partir do token de autenticação
-
+    const { id } = req.params;
+    const idUtilizador = req.user.id;
     try {
-        // Verifica se o utilizador já está inscrito no evento
         const inscricaoExistente = await SignUp.findOne({
             where: {
                 idEvento: id,
@@ -510,16 +397,11 @@ exports.EventSubscribe = async (req, res) => {
                 message: 'Utilizador já inscrito no evento.'
             });
         }
-
-        // Cria uma nova inscrição
         await SignUp.create({
             idEvento: id,
             idUtilizador: idUtilizador,
             estado: true
         });
-
-        // Adiciona lógica para notificações aqui, se necessário
-
         res.status(200).json({
             success: true,
             message: 'Inscrição realizada com sucesso!'
@@ -534,11 +416,10 @@ exports.EventSubscribe = async (req, res) => {
 };
 
 exports.EventUnsubscribe = async (req, res) => {
-    const { id } = req.params; // ID do evento
-    const idUtilizador = req.user.id; // ID do utilizador a partir do token de autenticação
+    const { id } = req.params;
+    const idUtilizador = req.user.id; 
 
     try {
-        // Verifica se o utilizador está inscrito no evento
         const inscricaoExistente = await SignUp.findOne({
             where: {
                 idEvento: id,

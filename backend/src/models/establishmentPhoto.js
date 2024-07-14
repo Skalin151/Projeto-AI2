@@ -1,16 +1,16 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../utils/database');
+const { Sequelize } = require('sequelize');
+const { SequelizeDB } = require('../utils/database');
 const User = require('./userModel');
 const Establishment = require('./establishmentModel');
 
-const EstablishmentPhoto = sequelize.define('EstablishmentPhoto', {
+const EstablishmentPhoto = SequelizeDB.define('EstablishmentPhoto', {
     id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
     idEstabelecimento: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
         model: 'Establishment',
@@ -18,7 +18,7 @@ const EstablishmentPhoto = sequelize.define('EstablishmentPhoto', {
         }
     },
     idCriador: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
         model: 'User',
@@ -26,7 +26,7 @@ const EstablishmentPhoto = sequelize.define('EstablishmentPhoto', {
         }
     },
     idAdmin: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: true,
         references: {
         model: 'User',
@@ -34,11 +34,11 @@ const EstablishmentPhoto = sequelize.define('EstablishmentPhoto', {
         }
     },
     foto: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false
     },
     estado : {
-        type: DataTypes.BOOLEAN,
+        type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false
     }

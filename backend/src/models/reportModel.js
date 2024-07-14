@@ -1,16 +1,16 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../utils/database');
+const { Sequelize } = require('sequelize');
+const { SequelizeDB } = require('../utils/database');
 const User = require('./userModel');
 const EventReview = require('./eventReviewModel');
 
-const Report = sequelize.define('Report', {
+const Report = SequelizeDB.define('Report', {
     id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
     idCriador: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
             model: 'User',
@@ -18,7 +18,7 @@ const Report = sequelize.define('Report', {
         }
     },
     idAvaliacaoEvento: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
             model: 'EventReview',
@@ -26,7 +26,7 @@ const Report = sequelize.define('Report', {
         }
     },
     idAdmin: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: true,
         references: {
             model: 'User',
@@ -34,7 +34,7 @@ const Report = sequelize.define('Report', {
         }
     },
     estado: {
-        type: DataTypes.BOOLEAN,
+        type: Sequelize.BOOLEAN,
         defaultValue: false
     },
 }, {

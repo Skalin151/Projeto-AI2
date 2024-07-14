@@ -9,9 +9,9 @@ if (process.env.DB_SSL === 'true') {
   };
 }
 
-const sequelize = new Sequelize('Softinsa', 'postgres', '17268015', {
+const SequelizeDB = new Sequelize('ProjetoAI2', 'postgres', 'postgres', {
   host: 'localhost',
-  port: '5432',
+  port: '5050',
   dialect: 'postgres',
   logging: false,
   dialectOptions: dialectOptions
@@ -19,11 +19,12 @@ const sequelize = new Sequelize('Softinsa', 'postgres', '17268015', {
 
 async function connect() {
   try {
-    await sequelize.authenticate();
+    await SequelizeDB.authenticate();
     console.log('Conexão com o PostgreSQL estabelecida com sucesso.');
   } catch (error) {
     console.error('Não foi possível conectar ao PostgreSQL:', error);
   }
 }
 
-module.exports = { sequelize, connect };
+module.exports = { SequelizeDB, connect };
+

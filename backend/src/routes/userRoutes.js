@@ -3,6 +3,7 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const auth = require('../middlewares/decodeJWT');
 
+router.get('/', userController.UserGet);
 router.get('/', auth, userController.UserGet);
 router.get('/completo', auth, userController.UserGetFull);
 router.get('/todos', userController.UserGetAll);

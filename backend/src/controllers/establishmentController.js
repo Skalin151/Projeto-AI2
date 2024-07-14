@@ -47,45 +47,6 @@ exports.EstablishmentList = async (req, res) => {
     }
 }
 
-exports.estabelecimentosMobile = async (req, res) => {
-    const areaId = req.body.areaId || req.params.areaId || req.query.areaId;
-    const subareaId = req.body.subareaId || req.params.subareaId || req.query.subareaId;
-    const idPosto = req.body.idPosto || req.params.idPosto || req.query.idPosto;
-
-    let whereClause = { estado: true };
-    if (areaId) {
-        whereClause.idArea = areaId;
-    }
-    if (subareaId) {
-        whereClause.idSubarea = subareaId;
-    }
-    if (idPosto) {
-        whereClause.idPosto = idPosto;
-    }
-    try {
-        const data = await Establishment.findAll({
-            where: whereClause,
-            include: [
-                { model: Area, attributes: ['nome'] },
-                { model: Subarea, attributes: ['nome'] },
-                { model: Post, attributes: ['nome'] },
-            ],
-        });
-        res.json({
-            success: true,
-            data: data,
-        });
-    }
-    catch (err) {
-        console.error('Erro ao listar estabelecimentos:', err.message);
-        res.status(500).json({
-            success: false,
-            error: 'Erro: ' + err.message,
-        });
-    }
-}
-
-
 exports.EstablishmentCreate = async (req, res) => {
     const {
         nome,
@@ -135,57 +96,6 @@ exports.EstablishmentCreate = async (req, res) => {
     }
 };
 
-
-exports.criarEstabelecimentoMobile = async (req, res) => {
-    const {
-        nome,
-        idArea,
-        idSubarea,
-        morada,
-        idPosto,
-        descricao,
-        telemovel,
-        email,
-        idAdmin
-    } = req.body;
-
-    const foto = req.file ? req.file.filename : null;
-    const idCriador = req.user.id;
-
-    try {
-        const newEstabelecimento = await Establishment.create({
-            nome,
-            idArea,
-            idSubarea,
-            idPosto,
-            morada,
-            descricao,
-            telemovel,
-            email,
-            idAdmin,
-            idCriador,
-            foto
-        });
-
-        const notificacao = await Notification.create({
-            idUtilizador: idCriador,
-            titulo: 'Estabelecimento criado',
-            descricao: `O seu estabelecimento ${nome} foi criado com sucesso!`,
-            estado: false,
-            data: new Date()
-        });
-
-        res.status(200).json({
-            success: true,
-            message: 'Estabelecimento criado com sucesso!',
-            data: newEstabelecimento,
-            notificacao: notificacao
-        });
-    } catch (error) {
-        console.log('Error: ', error);
-        res.status(500).json({ success: false, message: "Erro ao criar o estabelecimento!" });
-    }
-};
 
 exports.EstablishmentGet = async (req, res) => {
     const { id } = req.params;

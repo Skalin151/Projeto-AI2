@@ -1,17 +1,17 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../utils/database');
+const { Sequelize } = require('sequelize');
+const { SequelizeDB } = require('../utils/database');
 const User = require('./userModel');
 const Event = require('./eventModel');
 
 
-const SignUp = sequelize.define('SignUp', {
+const SignUp = SequelizeDB.define('SignUp', {
   id: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
   idEvento: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: 'Event',
@@ -19,7 +19,7 @@ const SignUp = sequelize.define('SignUp', {
     }
   },
   idUtilizador: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: 'User',
@@ -27,18 +27,18 @@ const SignUp = sequelize.define('SignUp', {
     }
   },
   idAdmin: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     references: {
       model: 'User',
       key: 'id'
     }
   },
   data: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.NOW
   },
   estado: {
-    type: DataTypes.BOOLEAN,
+    type: Sequelize.BOOLEAN,
     allowNull: false,
     defaultValue: false
   },

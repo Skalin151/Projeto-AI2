@@ -1,17 +1,17 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../utils/database');
+const { Sequelize } = require('sequelize');
+const { SequelizeDB } = require('../utils/database');
 const User = require('./userModel');
 const Area = require('./areaModel');
 const Subarea = require('./subareaModel');
 
-const Preference = sequelize.define('Preference', {
+const Preference = SequelizeDB.define('Preference', {
     id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
     idUtilizador: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
             model: 'User',
@@ -19,7 +19,7 @@ const Preference = sequelize.define('Preference', {
         }
     },
     idArea: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: true,
         references: {
             model: 'Area',
@@ -27,7 +27,7 @@ const Preference = sequelize.define('Preference', {
         }
     },
     idSubarea: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: true,
         references: {
             model: 'Subarea',

@@ -174,8 +174,6 @@ exports.EstablishmentReviewsDelete = async (req, res) => {
                     throw new Error(`Erro ao apagar resposta ${resposta.id}: ${err.message}`);
                 }
             }
-
-            // Primeiro, apagar os votos associados à avaliação
             await apagarVotos(avaliacaoId);
 
             try {

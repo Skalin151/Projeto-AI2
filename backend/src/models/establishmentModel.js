@@ -1,22 +1,22 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../utils/database');
+const { Sequelize } = require('sequelize');
+const { SequelizeDB } = require('../utils/database');
 const Area = require('./areaModel');
 const Subarea = require('./subareaModel');
 const Post = require('./postModel');
 const User = require('./userModel');
 
-const Establishment = sequelize.define('Establishment', {
+const Establishment = SequelizeDB.define('Establishment', {
   id: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
   nome: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: false
   },
   idArea: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: 'Area',
@@ -24,7 +24,7 @@ const Establishment = sequelize.define('Establishment', {
     }
   },
   idSubarea: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: 'Subarea',
@@ -32,7 +32,7 @@ const Establishment = sequelize.define('Establishment', {
     }
   },
   idPosto: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: 'Post',
@@ -40,27 +40,27 @@ const Establishment = sequelize.define('Establishment', {
     }
   },
   morada: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true
   },
   descricao: {
-    type: DataTypes.STRING(1000),
+    type: Sequelize.STRING(1000),
     allowNull: false
   },
   foto: { 
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true
   },
   telemovel : {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true
   },
   email : {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true
   },
   idAdmin: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: true,
     references: {
       model: 'User',
@@ -68,7 +68,7 @@ const Establishment = sequelize.define('Establishment', {
     }
   },
   idCriador: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: 'User',
@@ -76,7 +76,7 @@ const Establishment = sequelize.define('Establishment', {
     }
   },
   estado: {
-    type: DataTypes.BOOLEAN,
+    type: Sequelize.BOOLEAN,
     defaultValue: false
   },
 },

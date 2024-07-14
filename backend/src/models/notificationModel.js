@@ -1,32 +1,32 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../utils/database');
+const { Sequelize } = require('sequelize');
+const { SequelizeDB } = require('../utils/database');
 const User = require('./userModel');
 
-const Notification = sequelize.define('Notification', {
+const Notification = SequelizeDB.define('Notification', {
     id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
     idUtilizador: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false
     },
     titulo: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false
     },
     descricao: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false
     },
     data: {
-        type: DataTypes.DATE,
+        type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: DataTypes.NOW
+        defaultValue: Sequelize.NOW
     },
     estado: {
-        type: DataTypes.BOOLEAN,
+        type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false
     }

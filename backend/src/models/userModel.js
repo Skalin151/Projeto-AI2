@@ -1,49 +1,49 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../utils/database');
+const { Sequelize } = require('sequelize');
+const { SequelizeDB } = require('../utils/database');
 const Post = require('./postModel');
 
-const User = sequelize.define('User', {
+const User = SequelizeDB.define('User', {
   id: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
-  nome: DataTypes.STRING,
-  descricao: DataTypes.STRING(1000),
-  nif: DataTypes.STRING,
-  localidade: DataTypes.STRING,
-  telemovel: DataTypes.STRING,
+  nome: Sequelize.STRING,
+  descricao: Sequelize.STRING(1000),
+  nif: Sequelize.STRING,
+  localidade: Sequelize.STRING,
+  telemovel: Sequelize.STRING,
   email: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     unique: true
   },
-  palavra_passe: DataTypes.STRING,
+  palavra_passe: Sequelize.STRING,
   estado: {
-    type: DataTypes.BOOLEAN,
+    type: Sequelize.BOOLEAN,
     defaultValue: false
   },
-  foto: DataTypes.STRING,
-  id_google: DataTypes.STRING,
-  id_facebook: DataTypes.STRING,
-  cargo: DataTypes.STRING,
+  foto: Sequelize.STRING,
+  id_google: Sequelize.STRING,
+  id_facebook: Sequelize.STRING,
+  cargo: Sequelize.STRING,
   isAdmin: {
-    type: DataTypes.BOOLEAN,
+    type: Sequelize.BOOLEAN,
     defaultValue: false
   },
   isPrimeiroLogin: {
-    type: DataTypes.BOOLEAN,
+    type: Sequelize.BOOLEAN,
     defaultValue: true
   },
   verificationToken: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true
   },
   recoveryToken: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: true
   },
   adminId: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     references: {
       model: 'User', 
       key: 'id',
@@ -51,7 +51,7 @@ const User = sequelize.define('User', {
     }
   },
   idPosto : {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     references: {
       model: 'Post',
       key: 'id',

@@ -1,15 +1,15 @@
-const { DataTypes, BelongsTo } = require('sequelize');
-const { sequelize } = require('../utils/database');
+const { Sequelize } = require('sequelize');
+const { SequelizeDB } = require('../utils/database');
 const Area = require('./areaModel');
 
-const Subarea = sequelize.define('Subarea', {
+const Subarea = SequelizeDB.define('Subarea', {
   id: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
   idArea: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: 'Area',
@@ -17,7 +17,7 @@ const Subarea = sequelize.define('Subarea', {
     }
   },
   nome: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: false
   },
   },
